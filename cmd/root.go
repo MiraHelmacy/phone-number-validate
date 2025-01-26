@@ -26,10 +26,14 @@ import (
 	"os"
 
 	"phone-number-validate/cmd/validate"
-	"phone-number-validate/config"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+)
+
+const (
+	SHORT_FORMAT_KEY     = "short"
+	ONLY_INVALID_NUMBERS = "onlyinvalid"
 )
 
 var rootCmd = &cobra.Command{
@@ -63,6 +67,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().Bool(config.SHORT_FORMAT_KEY, viper.GetBool(config.SHORT_FORMAT_KEY), "Toggle Short Format.")
-	rootCmd.Flags().Bool(config.ONLY_INVALID_NUMBERS, viper.GetBool(config.ONLY_INVALID_NUMBERS), "Toggle only show invalid numbers")
+	rootCmd.Flags().Bool(SHORT_FORMAT_KEY, viper.GetBool(SHORT_FORMAT_KEY), "Toggle Short Format.")
+	rootCmd.Flags().Bool(ONLY_INVALID_NUMBERS, viper.GetBool(ONLY_INVALID_NUMBERS), "Toggle only show invalid numbers")
 }
