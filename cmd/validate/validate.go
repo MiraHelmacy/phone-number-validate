@@ -26,30 +26,48 @@ import (
 )
 
 func ExecuteValidate(args ValidateCmdCliArgs) (result ValidateResult, err error) {
+	//validate args
 	if valid := args.Validate(); !valid {
 
 		err = fmt.Errorf("invalid args: %v", args)
 		return
 	}
 
+	//create a pinpoint action wrapper
 	wrapper, createWrapperError := NewPinpointWrapper()
+
+	//check for errors
 	if createWrapperError != nil {
 		err = createWrapperError
 		return
 	}
+
+	//create result. initially long validate result.
 	result = NewLongValidateResult(args.OnlyInvalid)
+
+	//if short option specified
 	if args.Short {
+
+		//create a short validate result object
 		result = NewShortValidateResult(args.OnlyInvalid)
 	}
 
+	//for each Number Validate Request
 	for _, request := range args.PhoneNumberValidateRequests() {
+
+		//validate the request
 		phoneNumberValidateResponse, phoneNumberValidateRequestErr := wrapper.PhoneNumberValidate(request)
+
+		//check for errors
 		if phoneNumberValidateRequestErr != nil {
 			err = phoneNumberValidateRequestErr
 			return
 		}
 
+		//get the number validate response
 		numberValidateResponse := *phoneNumberValidateResponse.NumberValidateResponse
+
+		//add the response to the result
 		result.Add(numberValidateResponse)
 	}
 
