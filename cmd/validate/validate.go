@@ -55,32 +55,3 @@ func ExecuteValidate(args ValidateCmdCliArgs) (result ValidateResult, err error)
 
 	return
 }
-
-/*
-var ValidateCmd = &cobra.Command{
-	Use:   "validate [flags] phonenumber[...phonenumber]",
-	Short: "Validates phone numbers",
-	Long:  `Validates a list of phone numbers.`,
-	Args:  cobra.ArbitraryArgs,
-	RunE: func(cmd *cobra.Command, args []string) (err error) {
-		viper.BindPFlags(cmd.LocalFlags())
-		viper.Set("phonenumbers", args)
-		cliArgs := ValidateCmdCliArgs{}
-		viper.Unmarshal(&cliArgs)
-		result, err := ExecuteValidate(cliArgs)
-		if err == nil {
-			str, marshalErr := result.Result()
-			if marshalErr != nil {
-				return marshalErr
-			}
-			fmt.Println(str)
-		}
-		return
-	},
-}
-
-func init() {
-	ValidateCmd.Flags().Bool(config.SHORT_FORMAT_KEY, viper.GetBool(config.SHORT_FORMAT_KEY), "Toggle Short Format.")
-	ValidateCmd.Flags().Bool(config.ONLY_INVALID_NUMBERS, viper.GetBool(config.ONLY_INVALID_NUMBERS), "Toggle only show invalid numbers")
-}
-*/
