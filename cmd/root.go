@@ -111,6 +111,9 @@ func processFileContents(contents string) (phoneNumbers []string) {
 }
 
 func addPhoneNumbersFromConfigFile(originalPhoneNumbers []string) (originalAndPhoneNumbersFromConfig []string, err error) {
+	//append original phone numbers to an empty list
+	originalAndPhoneNumbersFromConfig = append(make([]string, 0), originalPhoneNumbers...)
+
 	//get the config file from viper and check if file is provided
 	if cfgFile := viper.GetString(PHONE_NUMBERS_FILE); cfgFile != "" {
 
@@ -124,7 +127,7 @@ func addPhoneNumbersFromConfigFile(originalPhoneNumbers []string) (originalAndPh
 			phoneNumbersFromFile := processFileContents(contents)
 
 			//append original phone numbers and phone numbers from file
-			originalAndPhoneNumbersFromConfig = append(originalPhoneNumbers, phoneNumbersFromFile...)
+			originalAndPhoneNumbersFromConfig = append(originalAndPhoneNumbersFromConfig, phoneNumbersFromFile...)
 		} else {
 			//failed to read file
 			err = readErr
@@ -139,7 +142,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Validates phone numbers",
 	Long:    `Validates a list of phone numbers.`,
 	Args:    cobra.ArbitraryArgs,
-	Version: "3.0.0",
+	Version: "3.0.1",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		//bind local flags
 		viper.BindPFlags(cmd.LocalFlags())
