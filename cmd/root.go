@@ -144,7 +144,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Validates phone numbers",
 	Long:    `Validates a list of phone numbers.`,
 	Args:    cobra.ArbitraryArgs,
-	Version: "3.0.2",
+	Version: "3.0.3",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		//bind local flags
 		viper.BindPFlags(cmd.LocalFlags())
@@ -165,6 +165,12 @@ var rootCmd = &cobra.Command{
 
 		//clean phone number list of duplicates and invalid phone numbers
 		phoneNumbers = cleanPhoneNumbersList(phoneNumbers)
+
+		//no phone numbers to validate
+		if len(phoneNumbers) == 0 {
+			fmt.Println("No Phone Numbers to validate.")
+			return
+		}
 
 		//set phone numbers in viper
 		viper.Set("phonenumbers", phoneNumbers)
