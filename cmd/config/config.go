@@ -1,11 +1,19 @@
 package config
 
 import (
+	"fmt"
 	"io"
 	"os"
 )
 
-const mAX_READ_SIZE = 1024 // 1 KB
+const (
+	BYTE          = 1
+	STEP          = 1024
+	KILOBYTE      = BYTE * STEP     // 1 KB
+	MEGABYTE      = KILOBYTE * STEP //1 MB
+	mAX_READ_SIZE = KILOBYTE        // 1 KB
+	MAX_FILE_SIZE = 10 * MEGABYTE
+)
 
 // read a files contents
 func ReadFileContents(filePath string) (contents string, err error) {
@@ -31,6 +39,12 @@ func ReadFileContents(filePath string) (contents string, err error) {
 
 			//append n bytes to fullBytes array
 			fullBytes = append(fullBytes, bytes[0:n]...)
+
+			//check if the file is too big.
+			if len(fullBytes) > MAX_FILE_SIZE {
+				err = fmt.Errorf("file too big. max file size: %v", MAX_FILE_SIZE)
+				return
+			}
 
 			//recreate bytes array
 			bytes = make([]byte, mAX_READ_SIZE)

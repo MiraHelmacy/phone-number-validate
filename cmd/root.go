@@ -144,7 +144,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Validates phone numbers",
 	Long:    `Validates a list of phone numbers.`,
 	Args:    cobra.ArbitraryArgs,
-	Version: "3.0.4",
+	Version: "3.1.0",
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		//bind local flags
 		viper.BindPFlags(cmd.LocalFlags())
